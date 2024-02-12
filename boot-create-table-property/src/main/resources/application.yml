@@ -10,18 +10,18 @@ spring:
 database:
   driverClassName: com.mysql.cj.jdbc.Driver
   databaseUrl: jdbc:mysql://localhost:3306/${database.schemaName}?useSSL=false&serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&socketTimeout=20000
-  schemaName: mbg
+  schemaName: wkb_oms_biz_pdd
   username: root
-  password: RoOtPaSs
+  password: '@#$kd3429DAnd'
   # 要保留的表名前缀
   keepPrefix:
   # 表名前缀长度，后面生成的配置会将前缀去掉，根据自己的业务适当修改即可。为 0，表示不去掉前缀。
-  tableNamePrefixCount: 0
+  tableNamePrefixCount: 3
   # 需要保留表前缀的表名列表，这里仅仅是示例，并没有任何业务逻辑。
   # 以下示例为列表模式
   keepPrefixTableList:
-    - erpTrade
-    - erpShopConfig
+    - erp_trade
+    - erp_shop_config
   # 是否使用原始字段名
   flagUseActualColumnNames: false
 
