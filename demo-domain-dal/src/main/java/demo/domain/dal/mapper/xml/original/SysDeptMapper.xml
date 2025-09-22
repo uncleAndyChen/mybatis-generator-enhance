@@ -198,58 +198,58 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `sys_dept`
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="row.name != null">
+        name = #{row.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.parentId != null">
-        parent_id = #{record.parentId,jdbcType=INTEGER},
+      <if test="row.parentId != null">
+        parent_id = #{row.parentId,jdbcType=INTEGER},
       </if>
-      <if test="record.level != null">
-        level = #{record.level,jdbcType=VARCHAR},
+      <if test="row.level != null">
+        level = #{row.level,jdbcType=VARCHAR},
       </if>
-      <if test="record.sequence != null">
-        sequence = #{record.sequence,jdbcType=INTEGER},
+      <if test="row.sequence != null">
+        sequence = #{row.sequence,jdbcType=INTEGER},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
+      <if test="row.status != null">
+        status = #{row.status,jdbcType=INTEGER},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="row.remark != null">
+        remark = #{row.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.operateIp != null">
-        operate_ip = #{record.operateIp,jdbcType=VARCHAR},
+      <if test="row.operateIp != null">
+        operate_ip = #{row.operateIp,jdbcType=VARCHAR},
       </if>
-      <if test="record.operator != null">
-        operator = #{record.operator,jdbcType=INTEGER},
+      <if test="row.operator != null">
+        operator = #{row.operator,jdbcType=INTEGER},
       </if>
-      <if test="record.createdAt != null">
-        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      <if test="row.createdAt != null">
+        created_at = #{row.createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.modifiedAt != null">
-        modified_at = #{record.modifiedAt,jdbcType=TIMESTAMP},
+      <if test="row.modifiedAt != null">
+        modified_at = #{row.modifiedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update `sys_dept`
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      level = #{record.level,jdbcType=VARCHAR},
-      sequence = #{record.sequence,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      operate_ip = #{record.operateIp,jdbcType=VARCHAR},
-      operator = #{record.operator,jdbcType=INTEGER},
-      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-      modified_at = #{record.modifiedAt,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
+    set id = #{row.id,jdbcType=INTEGER},
+      name = #{row.name,jdbcType=VARCHAR},
+      parent_id = #{row.parentId,jdbcType=INTEGER},
+      level = #{row.level,jdbcType=VARCHAR},
+      sequence = #{row.sequence,jdbcType=INTEGER},
+      status = #{row.status,jdbcType=INTEGER},
+      remark = #{row.remark,jdbcType=VARCHAR},
+      operate_ip = #{row.operateIp,jdbcType=VARCHAR},
+      operator = #{row.operator,jdbcType=INTEGER},
+      created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      modified_at = #{row.modifiedAt,jdbcType=TIMESTAMP}
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>

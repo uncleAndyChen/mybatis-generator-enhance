@@ -12,19 +12,19 @@ public interface SysMenuActionMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysMenuAction record);
+    int insert(SysMenuAction row);
 
-    int insertSelective(SysMenuAction record);
+    int insertSelective(SysMenuAction row);
 
     List<SysMenuAction> selectByExample(SysMenuActionExample example);
 
     SysMenuAction selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SysMenuAction record, @Param("example") SysMenuActionExample example);
+    int updateByExampleSelective(@Param("row") SysMenuAction row, @Param("example") SysMenuActionExample example);
 
-    int updateByExample(@Param("record") SysMenuAction record, @Param("example") SysMenuActionExample example);
+    int updateByExample(@Param("row") SysMenuAction row, @Param("example") SysMenuActionExample example);
 
-    int updateByPrimaryKeySelective(SysMenuAction record);
+    int updateByPrimaryKeySelective(SysMenuAction row);
 
-    int updateByPrimaryKey(SysMenuAction record);
+    int updateByPrimaryKey(SysMenuAction row);
 }

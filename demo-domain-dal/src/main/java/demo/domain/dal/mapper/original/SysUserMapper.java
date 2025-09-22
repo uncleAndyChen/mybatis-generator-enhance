@@ -12,19 +12,19 @@ public interface SysUserMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysUser record);
+    int insert(SysUser row);
 
-    int insertSelective(SysUser record);
+    int insertSelective(SysUser row);
 
     List<SysUser> selectByExample(SysUserExample example);
 
     SysUser selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SysUser record, @Param("example") SysUserExample example);
+    int updateByExampleSelective(@Param("row") SysUser row, @Param("example") SysUserExample example);
 
-    int updateByExample(@Param("record") SysUser record, @Param("example") SysUserExample example);
+    int updateByExample(@Param("row") SysUser row, @Param("example") SysUserExample example);
 
-    int updateByPrimaryKeySelective(SysUser record);
+    int updateByPrimaryKeySelective(SysUser row);
 
-    int updateByPrimaryKey(SysUser record);
+    int updateByPrimaryKey(SysUser row);
 }

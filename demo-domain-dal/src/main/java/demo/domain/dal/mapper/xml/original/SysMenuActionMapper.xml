@@ -181,50 +181,50 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `sys_menu_action`
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
       </if>
-      <if test="record.menuId != null">
-        menu_id = #{record.menuId,jdbcType=INTEGER},
+      <if test="row.menuId != null">
+        menu_id = #{row.menuId,jdbcType=INTEGER},
       </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
+      <if test="row.code != null">
+        code = #{row.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="row.name != null">
+        name = #{row.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
+      <if test="row.status != null">
+        status = #{row.status,jdbcType=INTEGER},
       </if>
-      <if test="record.operateIp != null">
-        operate_ip = #{record.operateIp,jdbcType=VARCHAR},
+      <if test="row.operateIp != null">
+        operate_ip = #{row.operateIp,jdbcType=VARCHAR},
       </if>
-      <if test="record.operator != null">
-        operator = #{record.operator,jdbcType=INTEGER},
+      <if test="row.operator != null">
+        operator = #{row.operator,jdbcType=INTEGER},
       </if>
-      <if test="record.createdAt != null">
-        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      <if test="row.createdAt != null">
+        created_at = #{row.createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.modifiedAt != null">
-        modified_at = #{record.modifiedAt,jdbcType=TIMESTAMP},
+      <if test="row.modifiedAt != null">
+        modified_at = #{row.modifiedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update `sys_menu_action`
-    set id = #{record.id,jdbcType=INTEGER},
-      menu_id = #{record.menuId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER},
-      operate_ip = #{record.operateIp,jdbcType=VARCHAR},
-      operator = #{record.operator,jdbcType=INTEGER},
-      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-      modified_at = #{record.modifiedAt,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
+    set id = #{row.id,jdbcType=INTEGER},
+      menu_id = #{row.menuId,jdbcType=INTEGER},
+      code = #{row.code,jdbcType=VARCHAR},
+      name = #{row.name,jdbcType=VARCHAR},
+      status = #{row.status,jdbcType=INTEGER},
+      operate_ip = #{row.operateIp,jdbcType=VARCHAR},
+      operator = #{row.operator,jdbcType=INTEGER},
+      created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      modified_at = #{row.modifiedAt,jdbcType=TIMESTAMP}
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>

@@ -12,19 +12,19 @@ public interface SysDeptMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysDept record);
+    int insert(SysDept row);
 
-    int insertSelective(SysDept record);
+    int insertSelective(SysDept row);
 
     List<SysDept> selectByExample(SysDeptExample example);
 
     SysDept selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SysDept record, @Param("example") SysDeptExample example);
+    int updateByExampleSelective(@Param("row") SysDept row, @Param("example") SysDeptExample example);
 
-    int updateByExample(@Param("record") SysDept record, @Param("example") SysDeptExample example);
+    int updateByExample(@Param("row") SysDept row, @Param("example") SysDeptExample example);
 
-    int updateByPrimaryKeySelective(SysDept record);
+    int updateByPrimaryKeySelective(SysDept row);
 
-    int updateByPrimaryKey(SysDept record);
+    int updateByPrimaryKey(SysDept row);
 }

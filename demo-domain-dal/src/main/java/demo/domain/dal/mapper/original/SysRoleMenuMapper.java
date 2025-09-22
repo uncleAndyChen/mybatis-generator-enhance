@@ -12,19 +12,19 @@ public interface SysRoleMenuMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysRoleMenu record);
+    int insert(SysRoleMenu row);
 
-    int insertSelective(SysRoleMenu record);
+    int insertSelective(SysRoleMenu row);
 
     List<SysRoleMenu> selectByExample(SysRoleMenuExample example);
 
     SysRoleMenu selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SysRoleMenu record, @Param("example") SysRoleMenuExample example);
+    int updateByExampleSelective(@Param("row") SysRoleMenu row, @Param("example") SysRoleMenuExample example);
 
-    int updateByExample(@Param("record") SysRoleMenu record, @Param("example") SysRoleMenuExample example);
+    int updateByExample(@Param("row") SysRoleMenu row, @Param("example") SysRoleMenuExample example);
 
-    int updateByPrimaryKeySelective(SysRoleMenu record);
+    int updateByPrimaryKeySelective(SysRoleMenu row);
 
-    int updateByPrimaryKey(SysRoleMenu record);
+    int updateByPrimaryKey(SysRoleMenu row);
 }

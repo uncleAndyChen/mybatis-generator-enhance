@@ -221,70 +221,70 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `sys_user`
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="row.username != null">
+        username = #{row.username,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="row.password != null">
+        password = #{row.password,jdbcType=VARCHAR},
       </if>
-      <if test="record.passwordSalt != null">
-        password_salt = #{record.passwordSalt,jdbcType=VARCHAR},
+      <if test="row.passwordSalt != null">
+        password_salt = #{row.passwordSalt,jdbcType=VARCHAR},
       </if>
-      <if test="record.realName != null">
-        real_name = #{record.realName,jdbcType=VARCHAR},
+      <if test="row.realName != null">
+        real_name = #{row.realName,jdbcType=VARCHAR},
       </if>
-      <if test="record.mobileNumber != null">
-        mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
+      <if test="row.mobileNumber != null">
+        mobile_number = #{row.mobileNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
+      <if test="row.email != null">
+        email = #{row.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.deptId != null">
-        dept_id = #{record.deptId,jdbcType=INTEGER},
+      <if test="row.deptId != null">
+        dept_id = #{row.deptId,jdbcType=INTEGER},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
+      <if test="row.status != null">
+        status = #{row.status,jdbcType=INTEGER},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="row.remark != null">
+        remark = #{row.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.operateIp != null">
-        operate_ip = #{record.operateIp,jdbcType=VARCHAR},
+      <if test="row.operateIp != null">
+        operate_ip = #{row.operateIp,jdbcType=VARCHAR},
       </if>
-      <if test="record.operator != null">
-        operator = #{record.operator,jdbcType=INTEGER},
+      <if test="row.operator != null">
+        operator = #{row.operator,jdbcType=INTEGER},
       </if>
-      <if test="record.createdAt != null">
-        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      <if test="row.createdAt != null">
+        created_at = #{row.createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.modifiedAt != null">
-        modified_at = #{record.modifiedAt,jdbcType=TIMESTAMP},
+      <if test="row.modifiedAt != null">
+        modified_at = #{row.modifiedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update `sys_user`
-    set id = #{record.id,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      password_salt = #{record.passwordSalt,jdbcType=VARCHAR},
-      real_name = #{record.realName,jdbcType=VARCHAR},
-      mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      dept_id = #{record.deptId,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      operate_ip = #{record.operateIp,jdbcType=VARCHAR},
-      operator = #{record.operator,jdbcType=INTEGER},
-      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-      modified_at = #{record.modifiedAt,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
+    set id = #{row.id,jdbcType=INTEGER},
+      username = #{row.username,jdbcType=VARCHAR},
+      password = #{row.password,jdbcType=VARCHAR},
+      password_salt = #{row.passwordSalt,jdbcType=VARCHAR},
+      real_name = #{row.realName,jdbcType=VARCHAR},
+      mobile_number = #{row.mobileNumber,jdbcType=VARCHAR},
+      email = #{row.email,jdbcType=VARCHAR},
+      dept_id = #{row.deptId,jdbcType=INTEGER},
+      status = #{row.status,jdbcType=INTEGER},
+      remark = #{row.remark,jdbcType=VARCHAR},
+      operate_ip = #{row.operateIp,jdbcType=VARCHAR},
+      operator = #{row.operator,jdbcType=INTEGER},
+      created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      modified_at = #{row.modifiedAt,jdbcType=TIMESTAMP}
+    <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>

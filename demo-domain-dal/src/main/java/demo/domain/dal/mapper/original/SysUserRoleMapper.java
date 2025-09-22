@@ -12,19 +12,19 @@ public interface SysUserRoleMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysUserRole record);
+    int insert(SysUserRole row);
 
-    int insertSelective(SysUserRole record);
+    int insertSelective(SysUserRole row);
 
     List<SysUserRole> selectByExample(SysUserRoleExample example);
 
     SysUserRole selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SysUserRole record, @Param("example") SysUserRoleExample example);
+    int updateByExampleSelective(@Param("row") SysUserRole row, @Param("example") SysUserRoleExample example);
 
-    int updateByExample(@Param("record") SysUserRole record, @Param("example") SysUserRoleExample example);
+    int updateByExample(@Param("row") SysUserRole row, @Param("example") SysUserRoleExample example);
 
-    int updateByPrimaryKeySelective(SysUserRole record);
+    int updateByPrimaryKeySelective(SysUserRole row);
 
-    int updateByPrimaryKey(SysUserRole record);
+    int updateByPrimaryKey(SysUserRole row);
 }

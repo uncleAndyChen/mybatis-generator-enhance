@@ -12,19 +12,19 @@ public interface SysRoleMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysRole record);
+    int insert(SysRole row);
 
-    int insertSelective(SysRole record);
+    int insertSelective(SysRole row);
 
     List<SysRole> selectByExample(SysRoleExample example);
 
     SysRole selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SysRole record, @Param("example") SysRoleExample example);
+    int updateByExampleSelective(@Param("row") SysRole row, @Param("example") SysRoleExample example);
 
-    int updateByExample(@Param("record") SysRole record, @Param("example") SysRoleExample example);
+    int updateByExample(@Param("row") SysRole row, @Param("example") SysRoleExample example);
 
-    int updateByPrimaryKeySelective(SysRole record);
+    int updateByPrimaryKeySelective(SysRole row);
 
-    int updateByPrimaryKey(SysRole record);
+    int updateByPrimaryKey(SysRole row);
 }
