@@ -20,9 +20,8 @@ public class CreateTablePropertyService {
         String primaryKey;
         String tableNameForMapper;
         List<String> tableNameList = new ArrayList();
-        StringBuilder sb = new StringBuilder();
-        StringBuilder sbMapperXml = new StringBuilder();
-        ResultSet rs;
+        StringBuilder stringBuilderTableProperty = new StringBuilder();
+        ResultSet resultSetTemp;
 
         // 请修改成你自己的数据库连接配置
         initConnection(databaseConfig);
@@ -35,25 +34,25 @@ public class CreateTablePropertyService {
         for (String tableName : tableNameList) {
             tableNameForMapper = tableName;
             getPrimaryKeySql = String.format(getPrimaryKeySqlFormat, tableName);
-            rs = statement.executeQuery(getPrimaryKeySql);
+            resultSetTemp = statement.executeQuery(getPrimaryKeySql);
 
-            rs.next(); //只有一条记录，因为只定义了一个主键，如果有多个主键（联合主键），请根据情况调整此处代码。
+            resultSetTemp.next(); //只有一条记录，因为只定义了一个主键，如果有多个主键（联合主键），请根据情况调整此处代码。
 
             // 没定义主键，则没有记录
-            if (rs.getRow() == 0) {
+            if (resultSetTemp.getRow() == 0) {
                 String errInfo = String.format("\n--------\n%s.%s，请先定义主键再生成表属性。\n--------\n", databaseConfig.getSchemaName(), tableName);
                 System.out.println(errInfo);
-                sb.append(errInfo);
-                return sb;
+                stringBuilderTableProperty.append(errInfo);
+                return stringBuilderTableProperty;
             }
 
-            primaryKey = rs.getString("column_name");
-            rs.close();
+            primaryKey = resultSetTemp.getString("column_name");
+            resultSetTemp.close();
 
-            sb.append("<table tableName=\"");
-            sb.append(tableName);
-            sb.append("\"");
-            sb.append(" domainObjectName=\"");
+            stringBuilderTableProperty.append("<table tableName=\"");
+            stringBuilderTableProperty.append(tableName);
+            stringBuilderTableProperty.append("\"");
+            stringBuilderTableProperty.append(" domainObjectName=\"");
 
             // 如果不需要去掉表名前缀
             //  1. 删除下面的 if 语句块即可。
@@ -64,34 +63,33 @@ public class CreateTablePropertyService {
                 tableNameForMapper = tableName.substring(databaseConfig.getTableNamePrefixCount());
             }
 
-            sb.append(toCamelNameButFirstWord(tableNameForMapper));
+            stringBuilderTableProperty.append(toCamelNameButFirstWord(tableNameForMapper));
 
             if (databaseConfig.isFlagUseActualColumnNames()) {
-                sb.append("\"><property name=\"useActualColumnNames\" value=\"true\"/>");
+                stringBuilderTableProperty.append("\"><property name=\"useActualColumnNames\" value=\"true\"/>");
             } else {
                 //sb.append("\"><property name=\"useActualColumnNames\" value=\"false\"/>");
-                sb.append("\">");
+                stringBuilderTableProperty.append("\">");
             }
 
-            sb.append("<generatedKey identity=\"true\" type=\"post\" column=\"" + primaryKey + "\" sqlStatement=\"Mysql\"/>");
+            stringBuilderTableProperty.append("<generatedKey identity=\"true\" type=\"post\" column=\"" + primaryKey + "\" sqlStatement=\"Mysql\"/>");
 
             getTinyintKeySql = String.format(getTinyintKeySqlFormat, tableName) + " where type like 'tinyint%';";
-            rs = statement.executeQuery(getTinyintKeySql);
+            resultSetTemp = statement.executeQuery(getTinyintKeySql);
 
             // 将 tinyint 替换成 Integer，否则会生成 bool 类型的字段，会导致程序处理复杂化，建议根据自己的业务权衡
-            while (rs.next()) {
-                sb.append("<columnOverride column=\"" + rs.getString("Field") + "\" javaType=\"java.lang.Integer\" jdbcType=\"INTEGER\" />");
+            while (resultSetTemp.next()) {
+                stringBuilderTableProperty.append("<columnOverride column=\"" + resultSetTemp.getString("Field") + "\" javaType=\"java.lang.Integer\" jdbcType=\"INTEGER\" />");
             }
 
-            rs.close();
+            resultSetTemp.close();
 
-            sb.append("</table>\r\n");
+            stringBuilderTableProperty.append("</table>\r\n");
         }
 
-        sb.append(sbMapperXml.toString());
-        System.out.println(sb.toString());
+        System.out.println(stringBuilderTableProperty);
 
-        return sb;
+        return stringBuilderTableProperty;
     }
 
     private static void initConnection(DatabaseConfig databaseConfig) throws Exception {
