@@ -263,10 +263,10 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
                              targetProject="mybatis.generator.dal/src/main/java/">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <!--生成对应表及类名-->
-        <table tableName="erpEnterpriseMember" domainObjectName="EnterpriseMember"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="memberID" sqlStatement="Mysql"/></table>
-        <table tableName="erpShopConfig" domainObjectName="ShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
-        <table tableName="erpTrade" domainObjectName="erpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
+        <!-- 生成对应表及类名，以下仅为配置示例 -->
+        <!-- 如何批量自动生成所有表的属性配置？请参考：https://gitee.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property -->
+        <table tableName="sys_dept" domainObjectName="SysDept"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu" domainObjectName="SysMenu"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
     </context>
 </generatorConfiguration>
 ```
