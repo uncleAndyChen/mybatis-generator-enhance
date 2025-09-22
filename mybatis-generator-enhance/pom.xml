@@ -44,6 +44,36 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <!-- 通过此标签可覆盖默认命名规则，直接指定输出文件名 -->
+                    <finalName>mybatis-generator-enhance-with-dependencies</finalName>
+                    <!-- 设置为 false 可消除文件名中的分类器部分（如-jar-with-dependencies） -->
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <!-- 此配置可指定打包文件的输出路径，下面的配置，会将 jar 输出到项目根目录 -->
+                    <outputDirectory>${project.build.directory}/../../</outputDirectory>
+                    <archive>
+                        <manifest>
+                            <mainClass>mybatis.generator.enhance.IntrospectedTableEnhanceImpl</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

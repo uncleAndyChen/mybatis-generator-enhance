@@ -11,7 +11,7 @@
 
 已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，实际项目会有业务层和接口层。
 
-有关 MySQL 命名规范，请参考：[MyBatis 项目中，有关 MySQL 命名规范，用驼峰命名法与下划线命名法的取舍](https://www.lovesofttech.com/mybatis/mysqlNaming.html)，请关注这篇文章提到的 mapUnderscoreToCamelCase 配置项。
+有关 MySQL 命名规范，请参考：[MyBatis 项目中，有关 MySQL 命名规范，用驼峰命名法与下划线命名法的取舍](http://www.taobantech.com/mybatis/mysqlNaming.html)，请关注这篇文章提到的 mapUnderscoreToCamelCase 配置项。
 
 # 运行示例
 - 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql` 脚本。
@@ -76,25 +76,25 @@
 # MyBatis Generator (MBG)，写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
 ## 生成表配置信息
 两种方式
-1. `boot-create-table-property` 工程采用 spring boot v2.1.5 创建，可直接运行，运行之后，访问：`http://localhost:90/getTableProperties`
+1. `boot-create-table-property` 工程采用 spring boot v3.5.6 创建，可直接运行，运行之后，访问：`http://localhost:90/getTableProperties`
     ![](./boot-create-table-property/mbg-demo.png)
 1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
 
 ## 项目地址
-- github: https://github.com/uncleAndyChen/mybatis-generator
-- gitee:  https://gitee.com/uncleAndyChen/mybatis-generator
+- github: https://github.com/uncleAndyChen/mybatis-generator-enhance
+- gitee:  https://gitee.com/uncleAndyChen/mybatis-generator-enhance
 
 如果觉得不错，欢迎star以表支持。
 
 ## 子项目
-- MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance
-- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/tree/master/boot-create-table-property
+- MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance
+- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property
 
 ## 建议在实际工作中的运行方式 
 cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
 
-- 下载MBG的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
-- 将本模块生成jar文件，生成的jar文件名`mybatis-generator-enhance.jar`。
+- 下载 MBG 的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
+- 本模块生成jar文件，生成的jar文件名`mybatis-generator-enhance.jar`。
 - 将两个jar文件以及配置文件放到model与dal项目所在的目录下，在 cmd 窗口执行：
 ```
 java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
@@ -112,8 +112,10 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
 ### 更新记录
+- 2025-09-21 
+    - 升级各依赖到最新，jdk 版本由之前的 11 改为 17
 - 2019-06-19
-    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version>1.8</java.version>`。
+    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version> 1.8</java.version>`。
     - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
         - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
         - 请参见项目：`boot-create-table-property`
@@ -123,7 +125,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
     - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
 - 2018-12-12
     - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
-    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
+    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
     - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
 - 2018-12-11
     - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
@@ -174,7 +176,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ## 适用场景
 最终目标：MBG 生成的xml文件中的sql脚本的表名，保持与对应表名在建表时的大小写一致，保持大小写敏感（表名可在MBG需要的配置文件中配置，以该配置为准）。这样可以适应以上`lower_case_table_names`的三种配置值。
 
-**为了达到以上目标，[运行生成表配置内容的项目](https://github.com/uncleAndyChen/mybatis-generator/tree/master/boot-create-table-property)，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
+**为了达到以上目标，[运行生成表配置内容的项目](https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property)，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
 
 ### 适用场景一
 1. 其中有数据库服务器被设置成大小写不敏感（比如阿里云的云数据库，截至目前2018年12月9号，还不支持配置成大小写敏感），即 `lower_case_table_names=1`，且该参数不能修改。
@@ -206,7 +208,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ## 生成表配置信息的 Java 工具类
 MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，为了达到我的需求，需要一张表对应一行配置信息，所以，我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，减少手工劳动。
 
-更详细的，请看：https://github.com/uncleAndyChen/mybatis-generator/tree/master/boot-create-table-property
+更详细的，请看：https://gitee.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property
 
 MBG需要的配置文件比较全面的，在工作中实际用到的文件内容如下：
 ```xml
@@ -279,17 +281,15 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
 # 执行之前请确保文件路径是正确的。
 
 # 以下三行执行删除生成的所有文件
-del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
-del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\xml\original\*.xml
-del/f/s/q C:\workspace\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
+del/f/s/q D:\workspace\study\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
+del/f/s/q D:\workspace\study\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\xml\original\*.xml
+del/f/s/q D:\workspace\study\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
 
 # 以下语句生成 mapper，分别针对 MySQL 的两个版本，执行时请注意 MySQL 的 driverClass 值。
 
 # 针对 MySQL v8.x，执行前，请确保本文件中 driverClass 的值为：com.mysql.cj.jdbc.Driver
-java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v8.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-core-1.4.2.jar;mybatis-generator-enhance\target\mybatis-generator-enhance-0.0.1.jar;mysql-connector-j-8.0.33.jar org.mybatis.generator.api.ShellRunner -configfile mybatis-generator-enhance\src\main\resources\generatorConfig.xml -overwrite
 
-# 针对 MySQL v5.7.x（理论上，v5.7 以前的版本也是支持的，没测试），执行前，请确保本文件中 driverClass 的值为：com.mysql.jdbc.Driver
-java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v5.7.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
 ```
 
 # 经验
@@ -308,4 +308,4 @@ Column userId, specified as an identity column in table user, does not exist in 
 - 解决方案一：在MBG配置文件的 `jdbcConnection` 项下添加：`<property name="nullCatalogMeansCurrent" value="true"/>`可以解决（注：本文中的配置示例已添加）。
 - 解决方案二：在 table 配置项添加 catalog 属性，如：`<table catalog="mbg" tableName="sys_dept" domainObjectName="SysDept"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>`
 
-更详细的，请参考：[解决 mybatis generator 使用新版 mysql 驱动 8.0 版本时会生成用户下多个库里的表的问题](https://www.lovesofttech.com/mybatis/MBGForMySQL8.html)
+更详细的，请参考：[解决 mybatis generator 使用新版 mysql 驱动 8.0 版本时会生成用户下多个库里的表的问题](http://blog.5k8.top/mybatis/MBGForMySQL8.html)
