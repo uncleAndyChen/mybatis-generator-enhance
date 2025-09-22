@@ -6,17 +6,23 @@ spring:
     url: ${database.databaseUrl}
     username: ${database.username}
     password: ${database.password}
+  thymeleaf:
+    prefix: classpath:/web/
+    mode: HTML
+    suffix: .html
+    cache: false
+    encoding: UTF-8
 
 database:
   driverClassName: com.mysql.cj.jdbc.Driver
   databaseUrl: jdbc:mysql://localhost:3306/${database.schemaName}?useSSL=false&serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&socketTimeout=20000
-  schemaName: wkb_oms_biz_pdd
+  schemaName: mbg
   username: root
   password: '@#$kd3429DAnd'
   # 要保留的表名前缀
   keepPrefix:
   # 表名前缀长度，后面生成的配置会将前缀去掉，根据自己的业务适当修改即可。为 0，表示不去掉前缀。
-  tableNamePrefixCount: 3
+  tableNamePrefixCount: 0
   # 需要保留表前缀的表名列表，这里仅仅是示例，并没有任何业务逻辑。
   # 以下示例为列表模式
   keepPrefixTableList:
@@ -24,6 +30,11 @@ database:
     - erp_shop_config
   # 是否使用原始字段名
   flagUseActualColumnNames: false
+logging:
+  level:
+    # 屏蔽一些不相关的日志输出，如：CONDITIONS EVALUATION REPORT、Negative matches、Unconditional classes 等
+    # 如果开发需要，请注释掉该配置项，或者调整日志级别
+    org.springframework.boot.autoconfigure: error
 
 mybatis.config-location: classpath:mybatis-config.xml
 mybatis.mapper-locations: classpath*:demo/domain/dal/mapper/xml/original/*.xml
