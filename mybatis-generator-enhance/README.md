@@ -1,15 +1,6 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
 ## 本扩展的作用
-1. 生成的*Mapper.xml文件中的脚本，表名取MBG所需配置文件中配置的值（工程中的配置文件是：generatorConfig.xml），而不是从数据库读取到的值。
-    - 如果数据库表名采用下划线命名法，请忽略这个作用。
-    - **如果表名采用驼峰式命名（不推荐驼峰式命名，推荐下划线命名），运行本工程生成表配置内容，要求 MySQL 的配置项：`lower_case_table_names` 为0或者2**的情况下创建的数据表，否则，生成的表配置内容的表名，全是小写的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时，数据库配置项：`lower_case_table_names` 的值，对生成结果没有影响。
-1. 给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。目的是分表时进行表名替换，把每张个表的表名当作一个整体，避免替换 `sys_user` 时 把 `sys_user_role` 中的 `sys_user` 也替换掉。
-
-有关 MySQL 命名规范，请参考：[MyBatis 项目中，有关 MySQL 命名规范，用驼峰命名法与下划线命名法的取舍](http://blog.5k8.top/mybatis/mysqlNaming.html)，请关注这篇文章提到的 mapUnderscoreToCamelCase 配置项。
-
-## 解决两个问题
-1. 适应lower_case_table_names的三种配置值。
-1. 利用MyBatis插件，根据业务规则，对表名进行动态替换。
+给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。目的是分表时进行表名替换，把每张表的表名当作一个整体，避免替换 `sys_user` 时 把 `sys_user_role` 中的 `sys_user` 也替换掉。
 
 注：项目根目录下有更详细的介绍，点击以下链接查看：
 - gitee:  https://gitee.com/uncleAndyChen/mybatis-generator-enhance

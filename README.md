@@ -281,9 +281,9 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
 # 执行之前请确保文件路径是正确的。
 
 # 以下三行执行删除生成的所有文件
-del/f/s/q D:\workspace\study\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
-del/f/s/q D:\workspace\study\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\xml\original\*.xml
-del/f/s/q D:\workspace\study\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
+del/f/s/q D:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
+del/f/s/q D:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\xml\original\*.xml
+del/f/s/q D:\workspace\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
 
 # 以下语句生成 mapper，分别针对 MySQL 的两个版本，执行时请注意 MySQL 的 driverClass 值。
 
