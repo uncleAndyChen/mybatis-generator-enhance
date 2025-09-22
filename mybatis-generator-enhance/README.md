@@ -123,7 +123,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-core-1.4.2.jar;mybatis-generato
    </executions>
 </plugin>
 ```
-通过包含相关倒带的 jar 包执行
+通过包含相关依赖的 jar 包执行
 ```shell
 java -Dfile.encoding=UTF-8 -cp mybatis-generator-enhance-with-dependencies.jar org.mybatis.generator.api.ShellRunner -configfile mybatis-generator-enhance\src\main\resources\generatorConfig.xml -overwrite -verbose
 
