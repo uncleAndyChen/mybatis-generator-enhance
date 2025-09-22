@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mybatis.generator</groupId>
+    <groupId>top.5k8.mbg-enhance</groupId>
     <artifactId>demo-domain-model</artifactId>
     <version>0.0.1</version>
+    <properties>
+        <!--
+        不加该配置，会自动读取系统 jdk 版本，读取到的是：21.0.8（java.version=Oracle OpenJDK 21.0.8）。
+        会报错：Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project demo-domain-model: Fatal error compiling: 错误: 无效的目标发行版：21.0.8
+        -->
+        <java.version>21</java.version>
+    </properties>
 
     <build>
         <plugins>

@@ -4,36 +4,31 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mybatis.generator</groupId>
+    <groupId>top.5k8.mbg-enhance</groupId>
     <artifactId>demo-domain-dal</artifactId>
     <version>0.0.1</version>
 
     <properties>
-        <mybatis.version>3.5.1</mybatis.version>
+        <mybatis.version>3.5.19</mybatis.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>${mybatis.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>${mysql-connector.version}</version>-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
         <dependency>
-            <groupId>org.mybatis.generator</groupId>
+            <groupId>top.5k8.mbg-enhance</groupId>
             <artifactId>demo-domain-model</artifactId>
             <version>0.0.1</version>
         </dependency>
         <dependency>
-            <groupId>mybatis.generator</groupId>
+            <groupId>top.5k8.mbg-enhance</groupId>
             <artifactId>common-lib</artifactId>
             <version>0.0.1</version>
         </dependency>
