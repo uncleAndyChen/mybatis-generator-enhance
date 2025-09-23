@@ -39,7 +39,7 @@
 
 ## 建议在实际工作中的运行方式 
 ### cmd 窗口运行 jar 文件
-- 下载 MBG 的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
+- 下载 MBG 的jar包，[官方 github releases 页](https://github.com/mybatis/generator/releases)， [1.4.2 的 release 版本](https://github.com/mybatis/generator/releases/download/mybatis-generator-1.4.2/mybatis-generator-core-1.4.2-bundle.zip)，解压，找到`mybatis-generator-1.4.2.jar`，备用。
 - 执行项目根目录下的 `package.bat`，生成的 jar 文件：`mybatis-generator-enhance\target\mybatis-generator-enhance-0.0.1.jar`，会用到
 - 将两个jar文件以及配置文件放到model与dal项目所在的目录下，在 cmd 窗口执行：
 ```shell
