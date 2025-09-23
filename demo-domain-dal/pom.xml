@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>top.5k8.mbg-enhance</groupId>
+    <groupId>top.5k8.enhance.mbg</groupId>
     <artifactId>demo-domain-dal</artifactId>
     <version>0.0.1</version>
 
@@ -23,12 +23,12 @@
             <version>${mybatis.version}</version>
         </dependency>
         <dependency>
-            <groupId>top.5k8.mbg-enhance</groupId>
+            <groupId>top.5k8.enhance.mbg</groupId>
             <artifactId>demo-domain-model</artifactId>
             <version>0.0.1</version>
         </dependency>
         <dependency>
-            <groupId>top.5k8.mbg-enhance</groupId>
+            <groupId>top.5k8.enhance.mbg</groupId>
             <artifactId>common-lib</artifactId>
             <version>0.0.1</version>
         </dependency>

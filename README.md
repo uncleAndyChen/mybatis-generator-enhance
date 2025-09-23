@@ -321,7 +321,7 @@ Column userId, specified as an identity column in table user, does not exist in 
         - mybatis-spring-boot-starter:3.0.5
         - mybatis:3.5.19
         - mybatis-generator:1.4.2
-    - groupId，改为 top.5k8.mbg-enhance，之前的是 mybatis 的
+    - groupId，改为 top.5k8.enhance.mbg，之前的是 mybatis 的
 - 2019-06-19
     - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version> 1.8</java.version>`。
     - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
