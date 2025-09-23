@@ -1,79 +1,26 @@
+本项目除了 MBG 扩展功能之外，还会顺带讨论有关 MySQL 配置项 `lower_case_table_names` 的三个值，以及在开发和生产环境如果配置不同，如何有效避免大小写敏感与否的问题。
+
 # 说明
-本项目最初想要解决数据库表名、字段名的命名法与 java 的类、属性命名法不一致带来的一系列问题。
-> 当然，本项目的 MBG 扩展类还做了一些其他事情，比如方便分表时做表名替换，更详细的，请参考: [MBG 扩展类 module](./mybatis-generator-enhance)
+- 本项目最初想要解决数据库表名、字段名以下划线命名法，生成的实体类（Model）与 java 的类、属性驼峰命名法不一致带来的一系列问题
+> 后来发现通过 MyBatis 配置就能解决，下面有说明
+- 除此之外，[分库分表插件](https://gitee.com/uncleAndyChen/mybatis-plugin-shard)，需要用该项目生成XML映射文件。更详细的，请查看: [MBG 扩展类 module](https://gitee.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance)
+- 已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，实际项目会有业务层和接口层
 
-曾尝试将数据库表名、字段名也采用驼峰命名法。
-
-现在已经改成：
-- 数据库表名、字段名保持下划线命名法。
-- 针对自定义 SQL 查询结果，对应的自定义 POJO 保持驼峰命名法，查询数据库的 SQL 语句保留原生下划线，并且不用写 resultMap。
-- 做到了 Java 规范与 MySQL 命名规范不一致的完美兼顾。
-
-已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，实际项目会有业务层和接口层。
-
-有关 MySQL 命名规范，请参考：[MyBatis 项目中，有关 MySQL 命名规范，用驼峰命名法与下划线命名法的取舍](http://www.taobantech.com/mybatis/mysqlNaming.html)，请关注这篇文章提到的 mapUnderscoreToCamelCase 配置项。
-
-# 运行示例
-- 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql` 脚本。
-- 修改 `boot-create-table-property/resources/application.yml` 中的数据库连接参数。
-- 运行启动项目：`boot-create-table-property`。
+# 运行
+- 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql` 脚本
+- 修改 `boot-create-table-property/resources/application.yml` 中的数据库连接参数
+- 运行启动项目：`boot-create-table-property`
 - 访问：http://localhost:90/getSysDeptList
-- 如果看到初始化的部门信息，则表示运行成功。
+- 如果看到初始化的部门信息，则表示运行成功
 ![](./boot-create-table-property/MBG.png)
 
 # 自行测试
-- 添加、修改表结构。
-- 参照项目根目录下的：`generatorConfig.xml`，重新生成 mapper
-- 参照 `demo.domain.dal.service.SysDeptDalService.getSysDeptList()` 实现数据库查询方法。
-- 参照 `table.property.controller.QueryDatabaseTestController.getSysDeptList()` 运行查询测试。
+- 添加、修改表结构
+- 参照 `mybatis-generator-enhance\src\main\resourcesgeneratorConfig.xml`，重新生成 mapper
+- 参照 `demo.domain.dal.service.SysDeptDalService.getSysDeptList()` 实现数据库查询方法
+- 参照 `table.property.controller.QueryDatabaseTestController.getSysDeptList()` 运行查询测试
 
-# 有关数据库表名、字段名使用下划线命名法还是驼峰命名法的思考
-更新时间：2019-05-29
-
-近期，又研读了一次《阿里巴巴Java开发手册（详尽版）》（[从这里可以下载](https://github.com/alibaba/p3c)），又思考了关于 MySQL 的表名、字段名的命名范围。
-
-打算在以后的新项目中完全遵循《阿里巴巴Java开发手册（详尽版）》的规范。
-
-与本仓库的 MySQL 表名、字段名，采用的是驼峰命名法(CamelCase)，与《阿里巴巴Java开发手册（详尽版）》的规范冲突，需要改为下划线命名法(UnderScoreCase)。
-
-关于数据库表名、字段名的命名规范，是要采用与 Java 代码的字段名和方法名一样的驼峰命名法(CamelCase)还是采用业界绝大多数团队使用的下划线命名法(UnderScoreCase)，仁者见仁，智者见智。
-
-作为团队规范的制定者，需要综合考虑各个方面的因素，之前我在面对这个问题的时候，考虑到数据库的每一张表都会对应一个 POJO，如果表字段是下划线命名法，为了与数据库对应，表对应的实体类（POJO）也得下划线命名，这就导致了同样是 java 类的命名规范的不一致性，在写代码的时候很别扭（当时对 MyBatis 不熟悉，其实有解决方案，继续往下看）。
-
-现在如果有一个方案，在既保持数据库表与字段采用下划线命名法的同时，对应实体（POJO）又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范，那就太完美了，还好，这个方案是有的。
-
-请继续往下看。
-
-## 解决方案
-更新时间：2019-06-18
-
-针对数据库字段使用下划线命名法，生成相应实体时，使用 java 普遍使用的驼峰命名法的配置，将 boot-create-table-property 项目的 application.yml 的配置 `flagUseActualColumnNames` 改为 false：
-```
-  # 是否使用原始字段名
-  flagUseActualColumnNames: false
-```
-
-如果设置为 true，会生成如下属性：
-```xml
-<property name="useActualColumnNames" value="true"/>
-```
-
-设置为 false 则不会生成该属性，没有显示指定该属性值时，该属性默认为 false。MyBatis Generator 默认会把下划线命名法转换成驼峰命名法。
-
-只是，以上配置，需要配合 MyBatis 的 `mapUnderscoreToCamelCase` 配置属性，需要将其设置为 true，在文件 `mybatis-config.xml` 中配置：
-```xml
-<configuration>
-    <settings>
-        <!-- 开启驼峰映射，为自定义的SQL语句服务-->
-        <!-- 设置启用数据库字段下划线映射到 java POJO 的驼峰式命名属性，默认值为 false-->
-        <!-- 即从经典数据库列名 a_column 到经典 Java 属性名 aColumn 的类似映射 -->
-        <!-- 配置后无需写 resultMap 将数据库字段和实体类属性对应 -->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
-    </settings>
-</configuration>
-```
-
-# MyBatis Generator (MBG)，写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
+# MyBatis Generator (MBG)，写扩展类，适应分表时动态替换表名
 ## 生成表配置信息
 两种方式
 1. `boot-create-table-property` 工程采用 spring boot v3.5.6 创建，可直接运行，运行之后，访问：`http://localhost:90/getTableProperties`
@@ -81,27 +28,81 @@
 1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
 
 ## 项目地址
+- gitee: https://gitee.com/uncleAndyChen/mybatis-generator-enhance
 - github: https://github.com/uncleAndyChen/mybatis-generator-enhance
-- gitee:  https://gitee.com/uncleAndyChen/mybatis-generator-enhance
 
 如果觉得不错，欢迎star以表支持。
 
 ## 子项目
-- MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance
-- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property
+- MBG扩展类：https://gitee.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance
+- 生成 MBG 需要的表配置内容：https://gitee.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property
 
 ## 建议在实际工作中的运行方式 
-cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
-
+### cmd 窗口运行 jar 文件
 - 下载 MBG 的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
-- 本模块生成jar文件，生成的jar文件名`mybatis-generator-enhance.jar`。
+- 执行项目根目录下的 `package.bat`，生成的 jar 文件：`mybatis-generator-enhance\target\mybatis-generator-enhance-0.0.1.jar`，会用到
 - 将两个jar文件以及配置文件放到model与dal项目所在的目录下，在 cmd 窗口执行：
-```
-java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
+```shell
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-core-1.4.2.jar;mybatis-generator-enhance\target\mybatis-generator-enhance-0.0.1.jar;mysql-connector-j-8.0.33.jar org.mybatis.generator.api.ShellRunner -configfile mybatis-generator-enhance\src\main\resources\generatorConfig.xml -overwrite -verbose
+
+# 其中，-verbose 是打印执行过程
 ```
 > 这里通过 -cp 指定需要用到的所有jar包，用分号隔开，这样在运行的时候才能找到相应的类。
 
-### 通过本项目，可以学到的知识点
+把相关依赖打到一起，用一个 jar 文件执行，更方便
+在项目 mybatis.generator.enhance 的 pom.xml 添加打包插件，如下：
+```xml
+<plugin>
+   <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-assembly-plugin</artifactId>
+   <version>3.7.1</version>
+   <configuration>
+      <!-- 通过此标签可覆盖默认命名规则，直接指定输出文件名 -->
+      <finalName>mybatis-generator-enhance-with-dependencies</finalName>
+      <!-- 设置为 false 可消除文件名中的分类器部分（如-jar-with-dependencies） -->
+      <appendAssemblyId>false</appendAssemblyId>
+      <!-- 此配置可指定打包文件的输出路径，下面的配置，会将 jar 输出到项目根目录 -->
+      <outputDirectory>${project.build.directory}/../../</outputDirectory>
+      <archive>
+         <manifest>
+            <mainClass>mybatis.generator.enhance.IntrospectedTableEnhanceImpl</mainClass>
+         </manifest>
+      </archive>
+      <descriptorRefs>
+         <descriptorRef>jar-with-dependencies</descriptorRef>
+      </descriptorRefs>
+   </configuration>
+   <executions>
+      <execution>
+         <phase>package</phase>
+         <goals>
+            <goal>single</goal>
+         </goals>
+      </execution>
+   </executions>
+</plugin>
+```
+通过包含相关依赖的 jar 包执行
+```shell
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-enhance-with-dependencies.jar org.mybatis.generator.api.ShellRunner -configfile mybatis-generator-enhance\src\main\resources\generatorConfig.xml -overwrite -verbose
+
+```
+
+# 原理
+简单的说，就是自己的实现类`IntrospectedTableEnhanceImpl`继承自MBG的一个具体实现类，重写获取表名的方法。
+
+IntrospectedTable是MBG提供的一个比较基础的扩展类，相当于可以重新定义一个runtime。如果要通过继承IntrospectedTable完成扩展，需要自己来实现生成XML和Java代码的所有代码，也可以直接继承IntrospectedTableMyBatis3Impl，重写自己需要的业务逻辑，本模块就是直接继承自该类。
+
+要扩展自己的业务逻辑，建议先仔细阅读IntrospectedTableMyBatis3Impl和IntrospectedTableMyBatis3SimpleImpl，这两个类用得多一些。
+
+在MBG中，提供了几种默认的IntrospectedTable的实现，其实在context上设置的runtime对应的就是不同的IntrospectedTable的实现，下面是几种runtime和对应的实现类：
+- MyBatis3 (default)：org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3Impl
+- MyBatis3Simple：org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3SimpleImpl
+- Ibatis2Java2：org.mybatis.generator.codegen.ibatis2.IntrospectedTableIbatis2Java2Impl
+- Ibatis2Java5：org.mybatis.generator.codegen.ibatis2.IntrospectedTableIbatis2Java5Impl
+
+# 通过本项目，可以学到的知识点
 1. 可以理解使用MBG的大致流程。
 1. 本文中用到的MBG配置可以作为一个标准配置的参考。
 1. spring boot 2.1.5 获取 application.yml 配置信息，项目【boot-create-table-property】是一个很好的参考。
@@ -111,9 +112,17 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 1. 通过 IDEA 管理多项目。
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
-### 更新记录
-- 2025-09-21 
-    - 升级各依赖到最新，jdk 版本由之前的 11 改为 17
+# 更新记录
+- 2025-09-22
+  - jdk 版本升级到 21
+  - 其他依赖，升级到最新版本
+    - jackson:2.20.0
+    - springframework boot:3.5.6
+    - mysql-connector:8.0.33
+    - mybatis-spring-boot-starter:3.0.5
+    - mybatis:3.5.19
+    - mybatis-generator:1.4.2
+  - groupId，改为 top.5k8.mbg-enhance，之前的是 mybatis 的
 - 2019-06-19
     - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version> 1.8</java.version>`。
     - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
@@ -152,7 +161,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
     - 重命名model与dal模块名，更易于理解。
     - 在根目录添加 pom.xml，方便 IDEA 通过该文件直接导入。
 
-## 先了解一下 lower_case_table_names 参数 
+# 了解一下 lower_case_table_names 参数 
 官方文档：[Identifier Case Sensitivity](https://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html)
 
 1. lower_case_table_names是mysql一个大小写敏感设置的属性，此参数不可以动态修改，必须重启数据库。
@@ -180,37 +189,28 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 
 ### 适用场景一
 1. 其中有数据库服务器被设置成大小写不敏感（比如阿里云的云数据库，截至目前2018年12月9号，还不支持配置成大小写敏感），即 `lower_case_table_names=1`，且该参数不能修改。
-1. 为了统一命名规范使用驼峰式命名法，包括：数据库名、数据库表名、数据库字段名、编程语言。这样的话，可以控制`lower_case_table_names`的linux服务器，就可以将该参数设置为0，即大小写敏感。
+1. 假设程序代码遵循驼峰命名法。如果因为历史原因，或者有一个老项目，恰巧数据库也用了驼峰式命名法，包括：数据库名、数据库表名、数据库字段名。这样的话，可以控制`lower_case_table_names`的linux服务器，就可以将该参数设置为0，即大小写敏感。
 1. 用 MGB 生成的 Mapper 类名，以及 xml 文件中的表名，需要与创建表名时的原始大小写一致，以适应在`lower_case_table_names=0`（linux）或者`lower_case_table_names=2`（windows）的情况。
 
-当然，读到这里，你可能会觉得奇怪，数据库的库名、表名、字段名，业界都是用下划线分开的，其余字母全是小写，所以，该参数被配置成什么都不需要关心。
+当然，读到这里，你可能会觉得奇怪，数据库的库名、表名、字段名，业界都是用下划线命名法，全是小写字母，没有大写字母，所以，该参数被配置成什么都不需要关心。
 
-如果你也这么认为，那么，本文对你是没有价值的。
-
-本文要解决的问题是，数据库的库名、表名、字段名，需要保持跟 Java 的编码规范一致的场景。如果都统一成一种编码规则，比如统一用驼峰式命名法，那么，不用在两种编码习惯上切换，可以提高编码效率和减少不必要的麻烦，且继续往下看。
+那么，你说对了，如果数据库命名采用的是下划线命名法，那就且看工作中是否存在【适用场景二】吧。
 
 ### 适用场景二
-- 分表，利用MyBatis插件，根据业务规则，对表名进行动态替换。
-- 如`erpTrade`表分成了120个表，那么在某一次业务操作中，需要将`erpTrade`替换成`erpTrade_xyz`，其中`xyz`为从`001`到`120`的其中一个数字，则需要将MBG生成的xml里sql脚本中的表名用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。
-> 将会分享我的基于 MyBatis 插件分库分表项目。
+- 分表，利用 MyBatis 插件，根据业务规则，对表名进行动态替换。
+- 例如，表`erp_trade`分成了120个表，那么在某一次业务操作中，需要将`erp_trade`替换成`erp_trade_xyz`，其中`xyz`为从`001`到`120`的其中一个数字，则需要将 MBG 生成的 XML 映射文件里 sql 脚本中的表名用 \`（左上角数字键 1 的左边、Tab 键的上边、Esc 键的下边的键）引起来。
+- 把表名用 \` 引起来的目的，是可以避免错误地局部替换，比如需要替换 `sys_user` 时，可避免把 `sys_user_role` 中的 `sys_user` 也替换掉。
+> [基于 MyBatis 插件分库分表项目](https://gitee.com/uncleAndyChen/mybatis-plugin-shard)
 
-# 需求场景
-1. 首先，我项目的 Java 代码规范是变量命名应用驼峰式命名法（Camel-Case）。数据库表名及字段名，则用下划线命名法（即用下划线分隔不同单词）。
-1. 我用 MBG 生成的代码，通过配置可以将下划线去掉，同时将下划线后的第一个字母转为大写，这样是符合驼峰式命名法的。
-1. 但是，问题来了。我们项目前后端分离，前端调用 Restful Api，在传递的参数中难免需要以表名来定义对象，而以字段名作为对象的属性来传递参数，而 Java 写的 Api 在接收参数时，是用 Pojo 来跟前端传的参数匹配的。
-1. 这样有两个问题，前端在传参数的时候需要将表名和字段名由下划线命名法转为驼峰式命名法，Java 代码也以同样的方式定义对应的类名以及属性字段，在这个过程中，容易出错，相对直接 copy 表名及字段名，需要做额外的工作，而且前后端都有。
-1. 如果数据库表名和字段名本身就是驼峰式命名法的话，写代码的时候直接 copy 表名或字段名，这样既不容易出错，还能节省时间。说干就干，改！表名及字段名遵循驼峰式命名法。
-1. 这样做的目的无非是让大家能偷偷懒，还减少出错的概率，同时也轻松的达到了统一代码规范的目的。
-1. 在windows环境下，如果遇到`lower_case_table_names=1`或者该参数未配置（未配置的时候默认为1），运行MBG，生成的sql脚本，全是小写，需要花费额外时间来解决环境问题。
-1. 为了一劳永逸，有了本文和对应的项目。
-1. 随着业务发展，到了需要分库分表的时候，本文所解决的问题，更是不可或缺。
-
-## 生成表配置信息的 Java 工具类
-MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，为了达到我的需求，需要一张表对应一行配置信息，所以，我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，减少手工劳动。
+# 生成表配置信息的 Java 工具类
+- MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，如果需要对不同类型的字段做处理，比如 tinyint 类型的字段，MBG 生成规则是：当长度为 1 时默认映射为 Boolean 类型，否则映射为Byte类型，在实际开发过程中，可能 tinyint 保存的是 int 类型，不光是 0 和 1，则需要通过表配置信息修改这个行为。
+- 如此一来，存在 tinyint 需要生成 int 属性的表，都需要对应一行配置信息，手写的话，容易遗漏，也容易出错。
+- 我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，解放双手，提高效率。
 
 更详细的，请看：https://gitee.com/uncleAndyChen/mybatis-generator-enhance/tree/master/boot-create-table-property
 
-MBG需要的配置文件比较全面的，在工作中实际用到的文件内容如下：
+# MBG 需要的配置文件
+在工作中实际用到的文件内容，大致如下：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
@@ -274,6 +274,7 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
 ## 注意事项
 1. 当表结构发生变化时，需要重新运行 MBG 生成新的代码，所以，生成的代码，不能有修改行为，否则下次重新生成后，改过的代码会被覆盖。
 1. 重新生成时，*Mapper.xml 文件会被追加内容，而不是重新生成该文件，所以是有问题的，应对方法就是每次重新生成之前将旧的文件删除。
+> MBG 1.3.7 有这个问题，后面的版本，暂时未做测试
 1. 下面的脚本在window下测试通过，删除脚本和生成脚本一起执行即可。重新生成之后，如果文件内容跟原来一致，文件会被认为无修改。
 1. 需要注意的是，如果执行删除全部文件操作，需要保证所有表的配置保持与数据库同步，表配置相当重要，有则生成。
 ```
@@ -309,3 +310,52 @@ Column userId, specified as an identity column in table user, does not exist in 
 - 解决方案二：在 table 配置项添加 catalog 属性，如：`<table catalog="mbg" tableName="sys_dept" domainObjectName="SysDept"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>`
 
 更详细的，请参考：[解决 mybatis generator 使用新版 mysql 驱动 8.0 版本时会生成用户下多个库里的表的问题](http://blog.5k8.top/mybatis/MBGForMySQL8.html)
+
+# 有关数据库表名、字段名使用下划线命名法还是驼峰命名法的思考
+更新时间：2019-05-29
+
+近期，又研读了一次《阿里巴巴Java开发手册（详尽版）》（[从这里可以下载](https://github.com/alibaba/p3c)），又思考了关于 MySQL 的表名、字段名的命名范围。
+
+打算在以后的新项目中完全遵循《阿里巴巴Java开发手册（详尽版）》的规范。
+
+关于数据库表名、字段名的命名规范，是要采用与 Java 代码的字段名和方法名一样的驼峰命名法(CamelCase)还是采用业界绝大多数团队使用的下划线命名法(UnderScoreCase)，仁者见仁，智者见智。
+
+作为团队规范的制定者，需要综合考虑各个方面的因素，之前我在面对这个问题的时候，考虑到数据库的每一张表都会对应一个 POJO，如果表字段是下划线命名法，为了与数据库对应，表对应的实体类（POJO）也得下划线命名，这就导致了同样是 java 类的命名规范的不一致性，在写代码的时候很别扭（当时对 MyBatis 不熟悉，其实有解决方案，继续往下看）。
+
+现在如果有一个方案，在既保持数据库表与字段采用下划线命名法的同时，对应实体（POJO）又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范，那就太完美了，还好，这个方案是有的。
+
+请继续往下看。
+
+## 解决方案
+更新时间：2019-06-18
+
+针对数据库字段使用下划线命名法，生成相应实体时，使用 java 普遍使用的驼峰命名法的配置，将 boot-create-table-property 项目的 application.yml 的配置 `flagUseActualColumnNames` 改为 false：
+```
+  # 是否使用原始字段名
+  flagUseActualColumnNames: false
+```
+
+如果设置为 true，会生成如下属性：
+```xml
+<property name="useActualColumnNames" value="true"/>
+```
+
+设置为 false 则不会生成该属性，没有显示指定该属性值时，该属性默认为 false。MyBatis Generator 默认会把下划线命名法转换成驼峰命名法。
+
+只是，以上配置，需要配合 MyBatis 的 `mapUnderscoreToCamelCase` 配置属性，需要将其设置为 true，在文件 `mybatis-config.xml` 中配置：
+```xml
+<configuration>
+    <settings>
+        <!-- 开启驼峰映射，为自定义的SQL语句服务-->
+        <!-- 设置启用数据库字段下划线映射到 java POJO 的驼峰式命名属性，默认值为 false-->
+        <!-- 即从经典数据库列名 a_column 到经典 Java 属性名 aColumn 的类似映射 -->
+        <!-- 配置后无需写 resultMap 将数据库字段和实体类属性对应 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+</configuration>
+```
+
+### 达到的效果
+- 数据库表名、字段名保持下划线命名法。
+- 针对自定义 SQL 查询结果，对应的自定义 POJO 保持驼峰命名法，查询数据库的 SQL 语句保留原生下划线，并且不用写 resultMap 就可以与查询结果 POJO 自动匹配。
+- 做到了 Java 规范与 MySQL 命名规范不一致的完美兼顾。

@@ -1,9 +1,9 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
 ## 本扩展的作用
-给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。目的是分表时进行表名替换，把每张表的表名当作一个整体，避免替换 `sys_user` 时 把 `sys_user_role` 中的 `sys_user` 也替换掉。
+给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。目的是分表时进行表名替换，把每张表的表名当作一个整体，避免替换 `sys_user` 时，把 `sys_user_role` 中的 `sys_user` 也替换掉。
 
 注：项目根目录下有更详细的介绍，点击以下链接查看：
-- gitee:  https://gitee.com/uncleAndyChen/mybatis-generator-enhance
+- gitee: https://gitee.com/uncleAndyChen/mybatis-generator-enhance
 - github: https://github.com/uncleAndyChen/mybatis-generator-enhance
 
 ## 自己扩展的好处
