@@ -112,55 +112,6 @@ IntrospectedTable是MBG提供的一个比较基础的扩展类，相当于可以
 1. 通过 IDEA 管理多项目。
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
-# 更新记录
-- 2025-09-22
-  - jdk 版本升级到 21
-  - 其他依赖，升级到最新版本
-    - jackson:2.20.0
-    - springframework boot:3.5.6
-    - mysql-connector:8.0.33
-    - mybatis-spring-boot-starter:3.0.5
-    - mybatis:3.5.19
-    - mybatis-generator:1.4.2
-  - groupId，改为 top.5k8.mbg-enhance，之前的是 mybatis 的
-- 2019-06-19
-    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version> 1.8</java.version>`。
-    - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
-        - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
-        - 请参见项目：`boot-create-table-property`
-        - 添加数据库的 PowerDesigner 文档，见 `boot-create-table-property/resources/mbg.pdm`
-        - 数据库查询示例：`demo.domain.dal.service.SysDeptDalService.getSysDeptList()`
-- 2019-06-18
-    - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
-- 2018-12-12
-    - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
-    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
-    - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
-- 2018-12-11
-    - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
-    - 数据库驱动`mysql-connector-java 8.0.13`不变的情况下，数据库由8.x换到5.7.x之后，现出以下两类错误：
-        - 报错
-        ```
-        Cannot obtain primary key information from the database, generated objects may be incomplete
-        ...
-        ```
-        - 生成的 mapper 缺少以下接口：
-        ```
-        deleteByPrimaryKey
-        selectByPrimaryKey
-        updateByPrimaryKeySelective
-        updateByPrimaryKey
-        ```
-        - **解决**：将`mysql-connector-java`由高版本的8.X换成低版本的5.1.x。高版本8.x的驱动连接8.x数据库是正常的，但是换成低版本的数据库5.7.x版本，就会有问题。[参考](https://blog.csdn.net/jpf254/article/details/79571396)
-- 2018-12-09
-    - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
-    - 将 mybatis 由 3.4.1 升级至 3.4.6。
-    - 修改和完善本说明文档。
-    - 重构生成表配置的类：`CreateTablePropertyService`，优化完善了相关代码、添加数据库的各种配置信息，更易于使用和维护。
-    - 将生成表配置的类`CreateTablePropertyService`单独提取至一个独立的项目，以尽可能少的修改官方项目`mybatis-generator-core`源码。
-    - 重命名model与dal模块名，更易于理解。
-    - 在根目录添加 pom.xml，方便 IDEA 通过该文件直接导入。
-
 # 了解一下 lower_case_table_names 参数 
 官方文档：[Identifier Case Sensitivity](https://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html)
 
@@ -359,3 +310,52 @@ Column userId, specified as an identity column in table user, does not exist in 
 - 数据库表名、字段名保持下划线命名法。
 - 针对自定义 SQL 查询结果，对应的自定义 POJO 保持驼峰命名法，查询数据库的 SQL 语句保留原生下划线，并且不用写 resultMap 就可以与查询结果 POJO 自动匹配。
 - 做到了 Java 规范与 MySQL 命名规范不一致的完美兼顾。
+
+# 更新记录
+- 2025-09-22
+    - jdk 版本升级到 21
+    - 其他依赖，升级到最新版本
+        - jackson:2.20.0
+        - springframework boot:3.5.6
+        - mysql-connector:8.0.33
+        - mybatis-spring-boot-starter:3.0.5
+        - mybatis:3.5.19
+        - mybatis-generator:1.4.2
+    - groupId，改为 top.5k8.mbg-enhance，之前的是 mybatis 的
+- 2019-06-19
+    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version> 1.8</java.version>`。
+    - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
+        - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
+        - 请参见项目：`boot-create-table-property`
+        - 添加数据库的 PowerDesigner 文档，见 `boot-create-table-property/resources/mbg.pdm`
+        - 数据库查询示例：`demo.domain.dal.service.SysDeptDalService.getSysDeptList()`
+- 2019-06-18
+    - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
+- 2018-12-12
+    - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
+    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator-enhance/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
+    - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
+- 2018-12-11
+    - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
+    - 数据库驱动`mysql-connector-java 8.0.13`不变的情况下，数据库由8.x换到5.7.x之后，现出以下两类错误：
+        - 报错
+        ```
+        Cannot obtain primary key information from the database, generated objects may be incomplete
+        ...
+        ```
+        - 生成的 mapper 缺少以下接口：
+        ```
+        deleteByPrimaryKey
+        selectByPrimaryKey
+        updateByPrimaryKeySelective
+        updateByPrimaryKey
+        ```
+        - **解决**：将`mysql-connector-java`由高版本的8.X换成低版本的5.1.x。高版本8.x的驱动连接8.x数据库是正常的，但是换成低版本的数据库5.7.x版本，就会有问题。[参考](https://blog.csdn.net/jpf254/article/details/79571396)
+- 2018-12-09
+    - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
+    - 将 mybatis 由 3.4.1 升级至 3.4.6。
+    - 修改和完善本说明文档。
+    - 重构生成表配置的类：`CreateTablePropertyService`，优化完善了相关代码、添加数据库的各种配置信息，更易于使用和维护。
+    - 将生成表配置的类`CreateTablePropertyService`单独提取至一个独立的项目，以尽可能少的修改官方项目`mybatis-generator-core`源码。
+    - 重命名model与dal模块名，更易于理解。
+    - 在根目录添加 pom.xml，方便 IDEA 通过该文件直接导入。
